@@ -98,3 +98,5 @@ alias glog='git lg'
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
+
+PATH=~/.console-ninja/.bin:$PATH
