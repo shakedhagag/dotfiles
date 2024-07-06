@@ -94,7 +94,7 @@ alias gst='git status'
 alias gl='git pull'
 alias gco='git checkout'
 alias glog='git lg'
-
+alias zf='nvim $(fzf -m --preview="bat --color=always {}")'
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
