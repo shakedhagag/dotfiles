@@ -10,6 +10,8 @@ keymap.set("n", "x", '"_x')
 -- Select all
 keymap.set("n", "<C-a>", "gg<S-v>G")
 
+keymap.set("n", "<C-Space>", "<Cmd>NvimTmuxNavigateNavigateNext<CR>", { silent = true })
+
 -- Delete a word backwards
 keymap.set("n", "dw", 'vb"_d')
 
@@ -48,11 +50,11 @@ keymap.set("n", "<C-w><right>", "<C-w>>")
 keymap.set("n", "<C-w><up>", "<C-w>+")
 keymap.set("n", "<C-w><down>", "<C-w>-")
 --
--- -- Diagnostics
--- keymap.set("n", "<C-j>", function()
---   vim.diagnostic.goto_next()
--- end, opts)
---
+-- Diagnostics
+keymap.set("n", "<C-q>", function()
+  vim.diagnostic.goto_next()
+end, opts)
+
 --Move entire line up and down
 keymap.set("n", "<C-k>", ":m .-2<CR>==") -- move line down(n)
 keymap.set("n", "<C-j>", ":m .+1<CR>==") -- move line up(n)
