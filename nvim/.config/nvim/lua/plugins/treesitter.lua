@@ -4,7 +4,7 @@ return {
     tag = "v0.9.2",
 
     opts = {
-      ignore_installed = { "printf" },
+      ignore_installed = { "printf", "ptf" },
       ensure_installed = {
         "javascript",
         "typescript",
