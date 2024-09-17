@@ -31,3 +31,5 @@ stow nvim
 
 And that is all.
 Stow will take care of symlinking the files to your $HOME.
+
+Good Luck
