@@ -24,6 +24,9 @@ return {
         use_virtual_text = true,
         lint_events = { "BufWrite", "CursorHold" },
       },
+      highlight = { enable = true },
+      auto_install = true,
+      ignore_install = { "printf" },
     },
   },
 }

@@ -8,7 +8,8 @@ return {
         "shellcheck",
         "shfmt",
         "tailwindcss-language-server",
-        "typescript-language-server",
+        "vtsls",
+        "prettier",
         "css-lsp",
       })
     end,
@@ -111,14 +112,6 @@ return {
                   ["unused"] = "Opened",
                 },
                 unusedLocalExclude = { "_*" },
-              },
-              format = {
-                enable = false,
-                defaultConfig = {
-                  indent_style = "space",
-                  indent_size = "2",
-                  continuation_indent_size = "2",
-                },
               },
             },
           },

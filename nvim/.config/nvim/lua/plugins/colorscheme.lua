@@ -1,11 +1,9 @@
 return {
-  "craftzdog/solarized-osaka.nvim",
-  lazy = false,
-  opts = {
-    transparent = true,
-    styles = {
-      floats = "transparent",
-      sidebars = "transparent",
-    },
-  },
+  "vague2k/vague.nvim",
+  config = function()
+    require("vague").setup({
+      -- optional configuration here
+      transparent = true,
+    })
+  end,
 }

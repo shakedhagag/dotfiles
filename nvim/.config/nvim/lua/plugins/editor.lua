@@ -1,5 +1,8 @@
+local uv = vim.loop
+
 return {
   -- Hihglight colors
+
   {
     "echasnovski/mini.hipatterns",
     event = "BufReadPre",
@@ -28,15 +31,22 @@ return {
         desc = "Lists files in your current working directory, respects .gitignore",
       },
       {
-        "<C-q>",
+        ";q",
         function(node)
-          if not node then
-            return
+          local path
+
+          if node then
+            -- Use the node's absolute_path if available, otherwise fallback to the current buffer's directory
+            path = node.absolute_path or (node.parent and node.parent.absolute_path) or vim.fn.expand("%:p:h")
+          else
+            -- If no node is provided, fallback to the current buffer's directory
+            path = vim.fn.expand("%:p:h")
           end
-          local path = node.absolute_path or uv.cwd()
-          if node.type ~= "directory" and node.parent then
-            path = node.parent.absolute_path
-          end
+
+          -- Ensure path is not nil, provide a fallback (e.g., current working directory) if it is
+          path = path or uv.cwd()
+
+          -- Execute Telescope's live_grep with the path
           require("telescope.builtin").live_grep({
             search_dirs = { path },
             prompt_title = string.format("Grep in [%s]", vim.fs.basename(path)),
