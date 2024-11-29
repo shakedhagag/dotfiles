@@ -18,6 +18,9 @@ return {
         "lua",
         "astro",
         "markdown",
+        "rust",
+        "yaml",
+        "toml",
       },
       query_linter = {
         enable = true,

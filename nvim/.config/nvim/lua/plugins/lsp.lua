@@ -59,6 +59,27 @@ return {
           },
         },
         html = {},
+        rust_analyzer = {
+          settings = {
+            ["rust-analyzer"] = {
+              cargo = {
+                loadOutDirsFromCheck = true,
+              },
+              checkOnSave = {
+                enable = true,
+              },
+              procMacro = {
+                enable = true,
+              },
+              inlayHints = {
+                chainingHints = true,
+                parameterHints = true,
+                typeHints = true,
+                typeHintsSeparator = " : ",
+              },
+            },
+          },
+        },
         lua_ls = {
           -- enabled = false,
           single_file_support = true,
