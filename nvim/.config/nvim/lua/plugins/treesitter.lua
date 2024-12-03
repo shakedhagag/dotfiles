@@ -1,35 +1,15 @@
-return {
-  {
-    "nvim-treesitter/nvim-treesitter",
-    tag = "v0.9.2",
+if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
-    opts = {
-      ignore_installed = { "printf", "ptf" },
-      ensure_installed = {
-        "javascript",
-        "typescript",
-        "css",
-        "gitignore",
-        "http",
-        "json",
-        "scss",
-        "sql",
-        "vim",
-        "lua",
-        "astro",
-        "markdown",
-        "rust",
-        "yaml",
-        "toml",
-      },
-      query_linter = {
-        enable = true,
-        use_virtual_text = true,
-        lint_events = { "BufWrite", "CursorHold" },
-      },
-      highlight = { enable = true },
-      auto_install = true,
-      ignore_install = { "printf" },
+-- Customize Treesitter
+
+---@type LazySpec
+return {
+  "nvim-treesitter/nvim-treesitter",
+  opts = {
+    ensure_installed = {
+      "lua",
+      "vim",
+      -- add more arguments for adding more treesitter parsers
     },
   },
 }
