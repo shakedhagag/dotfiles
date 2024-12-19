@@ -25,7 +25,9 @@ return {
       },
     },
   },
-  { import = "astrocommunity.completion.avante-nvim" },
+  {
+    import = "astrocommunity.completion.avante-nvim",
+  },
   { import = "astrocommunity.completion.copilot-lua" },
   { import = "astrocommunity.completion.copilot-cmp" },
   { import = "astrocommunity.pack.typescript" },

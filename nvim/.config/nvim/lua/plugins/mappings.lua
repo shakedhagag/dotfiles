@@ -30,6 +30,8 @@ return {
           ["sj"] = { "<C-w>j" },
           ["sk"] = { "<C-w>k" },
           [";r"] = { "<Leader>fw" },
+          ["L"] = { "$" },
+          ["H"] = { "^" },
         },
         t = {
           -- setting a mapping to false will disable it
