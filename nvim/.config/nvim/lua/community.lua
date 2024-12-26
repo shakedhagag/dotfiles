@@ -27,8 +27,18 @@ return {
   },
   {
     import = "astrocommunity.completion.avante-nvim",
+    opts = {
+      provider = "claude",
+      auto_suggestions_provider = "copilot",
+      mappings = {
+        ask = "<leader>aa",
+      },
+    },
   },
   { import = "astrocommunity.completion.copilot-lua" },
   { import = "astrocommunity.completion.copilot-cmp" },
   { import = "astrocommunity.pack.typescript" },
+  { import = "astrocommunity.pack.markdown" },
+  { import = "astrocommunity.pack.mdx" },
+  { import = "astrocommunity.color.headlines-nvim" },
 }

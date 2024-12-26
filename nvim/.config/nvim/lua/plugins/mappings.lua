@@ -32,6 +32,7 @@ return {
           [";r"] = { "<Leader>fw" },
           ["L"] = { "$" },
           ["H"] = { "^" },
+          ["<Leader>aa"] = { ":AvanteAsk<CR>" },
         },
         t = {
           -- setting a mapping to false will disable it
