@@ -13,6 +13,7 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 alias reload-zsh="source ~/.zshrc"
+export EDITOR=nvim
 
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -104,7 +105,7 @@ alias zf='nvim $(fzf -m --preview="bat --color=always {}")'
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 # ---- Eza (better ls) -----
-alias ls="eza -a --icons=always"
+alias ls="eza -G -l -a --icons=always --group-directories-first --git-ignore"
 
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
