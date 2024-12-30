@@ -85,6 +85,11 @@ return {
             return client.supports_method "textDocument/semanticTokens/full" and vim.lsp.semantic_tokens ~= nil
           end,
         },
+        ["<Leader>ca"] = {
+          function() vim.lsp.buf.code_action() end,
+          desc = "LSP code action",
+          cond = "textDocument/codeAction",
+        },
       },
     },
     -- A custom `on_attach` function to be run after the default `on_attach` function
