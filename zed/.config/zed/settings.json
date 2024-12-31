@@ -23,6 +23,9 @@
   "scrollbar": {
     "show": "never"
   },
+  "experimental.theme_overrides": {
+    "background.appearance": "transparent"
+  },
   "buffer_line_height": {
     "custom": 1.5
   },
