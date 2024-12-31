@@ -2,7 +2,8 @@
 # Solarized Osaka
 include current-theme.conf
 # END_KITTY_THEME
-font_size 16
+font_size 18
+#shell "/opt/homebrew/bin/nu"
 
 
 background_opacity 0.8
@@ -10,14 +11,23 @@ background_blur 50
 
 
 macos_show_window_title_in none
-macos_titlebar_color #1a1b26
 macos_menubar_title_max_length 0
 hide_window_decorations titlebar-only
+macos_traditional_fullscreen no
+
+#keymaps
+map super+k 
 
 
 # BEGIN_KITTY_FONTS
-font_family      family='BlexMono Nerd Font Mono' style='ExtraLight Italic'
+
+font_family      family="BlexMono Nerd Font Mono"
 bold_font        auto
 italic_font      auto
 bold_italic_font auto
 # END_KITTY_FONTS
+
+# Cursor
+cursor_blink_interval 0
+
+

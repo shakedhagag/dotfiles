@@ -103,8 +103,8 @@
   {
     "context": "Editor",
     "bindings": {
-      "cmd-[": "editor::Outdent",
-      "cmd-]": "editor::Indent",
+      "cmd-[": "pane::GoBack",
+      "cmd-]": "pane::GoForward",
       "cmd-alt-up": "editor::AddSelectionAbove",
       "cmd-ctrl-p": "editor::AddSelectionAbove",
       "cmd-alt-down": "editor::AddSelectionBelow",

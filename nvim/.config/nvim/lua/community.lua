@@ -11,7 +11,6 @@ return {
   { import = "astrocommunity.diagnostics.trouble-nvim" },
   { import = "astrocommunity.pack.rust" },
   { import = "astrocommunity.utility.hover-nvim" },
-  { import = "astrocommunity.scrolling.mini-animate" },
   { import = "astrocommunity.motion.mini-ai" },
   {
     import = "astrocommunity.note-taking.obsidian-nvim",
