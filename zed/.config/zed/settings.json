@@ -12,11 +12,11 @@
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Solarized Dark"
+    "dark": "Solarized Osaka Dark"
   },
   "vim_mode": true,
-  "ui_font_family": "GeistMono Nerd Font Mono",
-  "buffer_font_family": "GeistMono Nerd Font Mono",
+  "ui_font_family": "BlexMono Nerd Font Mono",
+  "buffer_font_family": "BlexMono Nerd Font Mono",
   "buffer_font_weight": 300,
   "relative_line_numbers": true,
   "cursor_blink": false,
@@ -35,7 +35,7 @@
   },
   "vertical_scroll_margin": 0,
   "tab_bar": {
-    "show": true
+    "show": false
   },
   "toolbar": {
     "breadcrumbs": true,
@@ -45,7 +45,8 @@
     "alternate_scroll": "off",
     "blinking": "terminal_controlled",
     "copy_on_select": true,
-    "font_family": "GeistMono Nerd Font Mono",
+    "font_family": "MesloLGM Nerd Font Mono",
+    "font_weight": 300,
     "line_height": "standard",
     "toolbar": {
       "title": true

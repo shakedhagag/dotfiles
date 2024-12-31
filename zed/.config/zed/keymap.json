@@ -15,7 +15,6 @@
       // Go to file with `gf`
       "g f": "editor::OpenExcerpts",
       "ctrl-w z": "workspace::ToggleZoom",
-      "ctrl-w t": "terminal_panel::ToggleFocus",
       "g ]": "editor::GoToDiagnostic",
       "g [": "editor::GoToPrevDiagnostic",
       "g r": "editor::FindAllReferences",
@@ -38,11 +37,10 @@
       "; r": "workspace::NewSearch",
       "space f w": "pane::DeploySearch",
       "space f f": "file_finder::Toggle",
-      "H": "vim::StartOfLine",
-      "L": "vim::EndOfLine",
       "space t": "workspace::NewCenterTerminal",
       "w": "vim::NextSubwordStart",
-      "b": "vim::PreviousSubwordStart"
+      "b": "vim::PreviousSubwordStart",
+      "] b": "tab_switcher::Toggle"
     }
   },
   // Comment code
@@ -92,31 +90,14 @@
     }
   },
   {
-    "context": "Editor && vim_mode== visual && !VimWaiting && !VimObject",
+    "context": "vim_mode == visual",
     "bindings": {
-      "shift-j": "editor::MoveLineDown",
-      "shift-k": "editor::MoveLineUp",
-      "s": "editor::SelectSmallerSyntaxNode",
-      ";": "editor::SelectLargerSyntaxNode",
-      // shift-s binds (Surround) rely on custom keybinding (ctrl-g p) for vim paste
-      "g s '": ["workspace::SendKeystrokes", "d i ' ' left left ctrl-g p"],
-      "g s `": ["workspace::SendKeystrokes", "d i ` ` left left ctrl-g p"],
-      "g s \"": ["workspace::SendKeystrokes", "d i \" \" left left ctrl-g p"],
-      "g s [": [
-        "workspace::SendKeystrokes",
-        "d i [ space space ] left left left ctrl-g p"
-      ],
-      "g s ]": ["workspace::SendKeystrokes", "d i [ ] left left ctrl-g p"],
-      "g s {": [
-        "workspace::SendKeystrokes",
-        "d i { space space } left left left ctrl-g p"
-      ],
-      "g s }": ["workspace::SendKeystrokes", "d i { } left left ctrl-g p"],
-      "g s (": [
-        "workspace::SendKeystrokes",
-        "d i ( space space ) left left left ctrl-g p"
-      ],
-      "g s )": ["workspace::SendKeystrokes", "d i ( ) left left ctrl-g p"]
+      "shift-s": [
+        "vim::PushOperator",
+        {
+          "AddSurrounds": {}
+        }
+      ]
     }
   },
   {
@@ -152,12 +133,6 @@
           "replace_newest": true
         }
       ],
-      "cmd-/": [
-        "editor::ToggleComments",
-        {
-          "advance_downwards": false
-        }
-      ],
       "alt-up": "editor::SelectLargerSyntaxNode",
       "alt-down": "editor::SelectSmallerSyntaxNode",
       "cmd-u": "editor::UndoSelection",
@@ -166,6 +141,7 @@
       "shift-f8": "editor::GoToPrevDiagnostic",
       "f2": "editor::Rename",
       "f12": "editor::GoToDefinition",
+
       "alt-f12": "editor::GoToDefinitionSplit",
       "cmd-f12": "editor::GoToTypeDefinition",
       "alt-cmd-f12": "editor::GoToTypeDefinitionSplit",
@@ -202,7 +178,10 @@
   {
     "context": "Editor && vim_mode == normal && vim_operator == none && !VimWaiting",
     "bindings": {
-      "space g g": ["workspace::SendKeystrokes", "alt-shift-t enter"]
+      "space g g": ["workspace::SendKeystrokes", "alt-shift-t enter"],
+      "c i w": ["workspace::SendKeystrokes", "b c w"],
+      "L": ["workspace::SendKeystrokes", "shift $"],
+      "H": ["workspace::SendKeystrokes", "shift ^"]
     }
   },
   {
