@@ -1,0 +1,13 @@
+keybind = ctrl+z=close_surface
+keybind = ctrl+shift+d=new_split:right
+
+# Empty values reset the configuration to the default value
+font-family =  BlexMono Nerd Font Mono
+font-size = 16
+theme = Solarized Dark Higher Contrast
+background-opacity = 0.7
+background-blur-radius = 20
+macos-titlebar-style = hidden
+
+
+
