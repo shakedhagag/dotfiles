@@ -5,6 +5,7 @@
 //
 // To see the default key bindings run `zed: open default keymap`
 // from the command palette.
+// aaaa aaa aaa
 [
   {
     "context": "Editor && VimControl && !VimWaiting && !menu",
@@ -12,6 +13,7 @@
       // Chat with AI
       "space a a": "assistant::ToggleFocus",
       "space t h": "terminal_panel::ToggleFocus",
+
       // Go to file with `gf`
       "g f": "editor::OpenExcerpts",
       "ctrl-w z": "workspace::ToggleZoom",
@@ -40,7 +42,8 @@
       "space t": "workspace::NewCenterTerminal",
       "w": "vim::NextSubwordStart",
       "b": "vim::PreviousSubwordStart",
-      "] b": "tab_switcher::Toggle"
+      "] b": "tab_switcher::Toggle",
+      "space e": "workspace::ToggleLeftDock"
     }
   },
   // Comment code
@@ -48,7 +51,9 @@
     "context": "Editor && vim_mode == visual && !VimWaiting && !menu",
     "bindings": {
       // visual, visual line & visual block modes
-      "g c": "editor::ToggleComments"
+      "g c": "editor::ToggleComments",
+      "space a i": "assistant::InsertIntoEditor"
+
     }
   },
   // Better escape
@@ -67,28 +72,7 @@
       "r": "editor::Rename" // zed specific
     }
   },
-  // Toggle terminal
-  {
-    "context": "Workspace",
-    "bindings": {
-      "space e": "workspace::ToggleLeftDock"
-    }
-  },
-  {
-    "context": "EmptyPane || SharedScreen",
-    "bindings": {
-      // Open file finder
-      "space space": "file_finder::Toggle",
-      // Open recent project
-      "space f p": "projects::OpenRecent"
-    }
-  },
-  {
-    "context": "Editor && vim_mode == insert && !menu",
-    "bindings": {
-      "ctrl-g p": "vim::Paste" //Uses the vim clipboard
-    }
-  },
+
   {
     "context": "vim_mode == visual",
     "bindings": {
