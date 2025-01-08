@@ -15,7 +15,6 @@ return { -- override nvim-cmp plugin
       { name = "luasnip", priority = 750 },
       { name = "buffer", priority = 500 },
       { name = "path", priority = 250 },
-      { name = "emoji", priority = 700 }, -- add new source
     }
   end,
   config = function(_, opts)

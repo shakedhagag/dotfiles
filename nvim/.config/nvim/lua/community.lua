@@ -34,7 +34,13 @@ return {
       },
     },
   },
-  { import = "astrocommunity.completion.copilot-lua" },
+  {
+    import = "astrocommunity.completion.copilot-lua",
+    opts = {
+      filetypes = { tsx = true, ts = true, lua = true, md = true, mdx = true },
+      suggestion = { enabled = true },
+    },
+  },
   { import = "astrocommunity.completion.copilot-cmp" },
   { import = "astrocommunity.pack.typescript" },
   { import = "astrocommunity.pack.markdown" },

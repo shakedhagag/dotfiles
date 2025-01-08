@@ -23,7 +23,7 @@ return {
           ["<Leader>b"] = { desc = "Buffers" },
           -- quick save
           ["<C-s>"] = { ":w!<cr>", desc = "Save File" }, -- change description but the same command
-          ["<C-a>"] = { "ggVGG" }, -- select all content in the file
+          ["<C-a>"] = { "ggVG" }, -- select all content in the file
           ["sv"] = { "<C-w>v" },
           ["sl"] = { "<C-w>l" },
           ["sh"] = { "<C-w>h" },

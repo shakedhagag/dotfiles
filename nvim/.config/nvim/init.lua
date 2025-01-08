@@ -7,16 +7,6 @@ if not (vim.env.LAZY or (vim.uv or vim.loop).fs_stat(lazypath)) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Auto command to set the background of Telescope
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function() vim.cmd "hi TelescopeNormal guibg=NONE cterm=NONE" end,
-})
-
--- Auto command to set the border of Telescope
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function() vim.cmd "hi TelescopeBorder guibg=NONE cterm=NONE" end,
-})
-
 -- validate that lazy is available
 if not pcall(require, "lazy") then
   -- stylua: ignore
