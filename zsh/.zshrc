@@ -56,7 +56,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # pnpm
-export PNPM_HOME="/Users/shaked.hagag@openweb.com/Library/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm:$PATH"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
