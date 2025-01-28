@@ -1,6 +1,6 @@
 return {
-  { "rose-pine/neovim", name = "rose-pine" },
-  { "EdenEast/nightfox.nvim", name = "nightfox" },
+  { "rose-pine/neovim", name = "rose-pine", opts = { transparent = true } },
+  { "EdenEast/nightfox.nvim", name = "nightfox", opts = { transparent = true } },
   { "rebelot/kanagawa.nvim", name = "kanagawa" },
   {
     "craftzdog/solarized-osaka.nvim",
@@ -13,5 +13,14 @@ return {
       },
     },
     name = "solarized-osaka",
+  },
+  {
+    "navarasu/onedark.nvim",
+    name = "onedark",
+    opts = {
+      style = "darker",
+      transparent = true,
+      toggle_style_key = "<leader>ts",
+    },
   },
 }

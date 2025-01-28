@@ -12,7 +12,7 @@
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Catppuccin Mocha (Blur)"
+    "dark": "Catppuccin Mocha (Blue Blur+)"
   },
   "vim_mode": true,
   "ui_font_family": "BlexMono Nerd Font Mono",
