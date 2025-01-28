@@ -11,10 +11,10 @@ keybind = ctrl+shift+o=toggle_tab_overview
 
 font-family =  BlexMono Nerd Font Mono
 font-size = 16
-theme = Duotone dark
+theme = kanagawa
 background-opacity = 0.9
 background-blur-radius = 20
-macos-titlebar-style = hidden
+gtk-tabs-location=left
 
 
 
