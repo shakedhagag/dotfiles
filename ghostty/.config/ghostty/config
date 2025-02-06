@@ -14,9 +14,10 @@ macos-option-as-alt = true
 font-family =  BlexMono Nerd Font Mono
 font-size = 16
 theme = kanagawa
-background-opacity = 0.9
-background-blur-radius = 20
+background-opacity = 0.78
+background-blur-radius = 50
 gtk-tabs-location=left
 
 
 
+macos-titlebar-style = hidden
