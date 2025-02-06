@@ -16,8 +16,9 @@ font-size = 16
 theme = kanagawa
 background-opacity = 0.78
 background-blur-radius = 50
-gtk-tabs-location=left
+window-padding-x=8
+window-padding-y=8
+maximize
+macos-titlebar-style=tabs
 
 
-
-macos-titlebar-style = hidden

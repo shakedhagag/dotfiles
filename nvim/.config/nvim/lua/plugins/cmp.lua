@@ -36,6 +36,7 @@ return { -- override nvim-cmp plugin
           end
         end),
       },
+      experimental = { ghost_text = true },
     }
     -- configure `cmp-cmdline` as described in their repo: https://github.com/hrsh7th/cmp-cmdline#setup
     cmp.setup.cmdline("/", {
