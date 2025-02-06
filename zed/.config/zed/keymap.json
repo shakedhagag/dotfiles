@@ -25,7 +25,6 @@
       "space c r": "editor::Rename",
       "space l f": "editor::Format",
       "space c d": "diagnostics::Deploy",
-      "g c": "editor::ToggleComments",
       "space o": "tab_switcher::Toggle",
       "-": "project_panel::ToggleFocus",
       "space p": "outline::Toggle",
@@ -39,21 +38,26 @@
       "; r": "workspace::NewSearch",
       "space f w": "pane::DeploySearch",
       "space f f": "file_finder::Toggle",
-      "space t": "workspace::NewCenterTerminal",
+      "space t": "tab_switcher::Toggle",
       "w": "vim::NextSubwordStart",
       "b": "vim::PreviousSubwordStart",
-      "] b": "tab_switcher::Toggle",
-      "space e": "workspace::ToggleLeftDock"
+      "] b": "pane::ActivatePrevItem",
+      "[ b": "pane::ActivatePrevItem",
+      "space e": "workspace::ToggleLeftDock",
     }
   },
   // Comment code
   {
-    "context": "Editor && vim_mode == visual && !VimWaiting && !menu",
+    "context": "Editor && vim_mode ==visual && !VimWaiting && !menu",
     "bindings": {
       // visual, visual line & visual block modes
-      "g c": "editor::ToggleComments",
       "space a i": "assistant::InsertIntoEditor"
-
+    }
+  },
+  {
+    "context": "Terminal && !menu && vim_mode != insert",
+    "bindings": {
+      "cmd shift m": "workspace::ToggleZoom"
     }
   },
   // Better escape
@@ -163,7 +167,6 @@
     "context": "Editor && vim_mode == normal && vim_operator == none && !VimWaiting",
     "bindings": {
       "space g g": ["workspace::SendKeystrokes", "alt-shift-t enter"],
-      "c i w": ["workspace::SendKeystrokes", "b c w"],
       "L": ["workspace::SendKeystrokes", "shift $"],
       "H": ["workspace::SendKeystrokes", "shift ^"]
     }

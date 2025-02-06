@@ -9,6 +9,8 @@ keybind = ctrl+shift+left=resize_split:left,20
 keybind = ctrl+shift+t=new_tab
 keybind = ctrl+shift+o=toggle_tab_overview
 
+macos-option-as-alt = true
+
 font-family =  BlexMono Nerd Font Mono
 font-size = 16
 theme = kanagawa
