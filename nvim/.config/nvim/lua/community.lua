@@ -46,4 +46,6 @@ return {
   { import = "astrocommunity.pack.markdown" },
   { import = "astrocommunity.pack.mdx" },
   { import = "astrocommunity.color.headlines-nvim" },
+  { import = "astrocommunity.recipes.vscode" },
+  { import = "astrocommunity.file-explorer.mini-files" },
 }
