@@ -55,14 +55,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# pnpm
-export PNPM_HOME="$HOME/.local/share/pnpm:$PATH"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 eval "$(fnm env --use-on-cd)"
@@ -115,3 +107,11 @@ function y() {
 	fi
 	rm -f -- "$tmp"
 }
+
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

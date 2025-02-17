@@ -1,147 +1,155 @@
-// Zed keymap
-//
-// For information on binding keys, see the Zed
-// documentation: https://zed.dev/docs/key-bindings
-//
-// To see the default key bindings run `zed: open default keymap`
-// from the command palette.
-// aaaa aaa aaa
 [
+  // ========================================
+  // VIM NORMAL MODE BINDINGS
+  // ========================================
   {
     "context": "Editor && VimControl && !VimWaiting && !menu",
     "bindings": {
-      // Chat with AI
+      // AI and Terminal
       "space a a": "assistant::ToggleFocus",
       "space t h": "terminal_panel::ToggleFocus",
 
-      // Go to file with `gf`
+      // Navigation
       "g f": "editor::OpenExcerpts",
-      "ctrl-w z": "workspace::ToggleZoom",
       "g ]": "editor::GoToDiagnostic",
       "g [": "editor::GoToPrevDiagnostic",
       "g r": "editor::FindAllReferences",
       "shift-k": "editor::Hover",
+      "shift-w": "vim::NextSubwordStart",
+      "shift-b": "vim::PreviousSubwordStart",
+
+      // Code Actions
       "space c a": "editor::ToggleCodeActions",
       "space c r": "editor::Rename",
       "space l f": "editor::Format",
       "space c d": "diagnostics::Deploy",
+
+      // Panel and Dock Controls
+      "space e": "workspace::ToggleRightDock",
       "space o": "tab_switcher::Toggle",
-      "-": "project_panel::ToggleFocus",
       "space p": "outline::Toggle",
+      "-": "project_panel::ToggleFocus",
+
+      // Split and Navigation
       "space v": "editor::GoToDefinitionSplit",
-      "s h": ["workspace::ActivatePaneInDirection", "Left"],
-      "s l": ["workspace::ActivatePaneInDirection", "Right"],
-      "s k": ["workspace::ActivatePaneInDirection", "Up"],
-      "s j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-w z": "workspace::ToggleZoom",
+
+      // Pane Management
+      "s h": "workspace::ActivatePaneLeft",
+      "s l": "workspace::ActivatePaneRight",
+      "s k": "workspace::ActivatePaneUp",
+      "s j": "workspace::ActivatePaneDown",
       "s s": "pane::SplitHorizontal",
       "s v": "pane::SplitVertical",
+      "space =": "vim::ResetPaneSizes",
+      "space m": "vim::MaximizePane",
+
+      // File and Search Operations
       "; r": "workspace::NewSearch",
       "space f w": "pane::DeploySearch",
       "space f f": "file_finder::Toggle",
-      "space t": "tab_switcher::Toggle",
-      "w": "vim::NextSubwordStart",
-      "b": "vim::PreviousSubwordStart",
+      "space f b": "tab_switcher::Toggle",
+
+      // Buffer Navigation
       "] b": "pane::ActivatePrevItem",
-      "[ b": "pane::ActivatePrevItem",
-      "space e": "workspace::ToggleLeftDock",
+      "[ b": "pane::ActivateNextItem"
     }
   },
-  // Comment code
+
+  // ========================================
+  // VISUAL MODE BINDINGS
+  // ========================================
   {
     "context": "Editor && vim_mode ==visual && !VimWaiting && !menu",
     "bindings": {
-      // visual, visual line & visual block modes
       "space a i": "assistant::InsertIntoEditor"
     }
   },
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      "shift-s": ["vim::PushAddSurrounds", {}]
+    }
+  },
+
+  // ========================================
+  // INSERT MODE BINDINGS
+  // ========================================
+  {
+    "context": "Editor && vim_mode == insert && !menu",
+    "bindings": {
+      "j j": "vim::NormalBefore",
+      "j k": "vim::NormalBefore"
+    }
+  },
+
+  // ========================================
+  // TERMINAL BINDINGS
+  // ========================================
   {
     "context": "Terminal && !menu && vim_mode != insert",
     "bindings": {
       "cmd shift m": "workspace::ToggleZoom"
     }
   },
-  // Better escape
-  {
-    "context": "Editor && vim_mode == insert && !menu",
-    "bindings": {
-      "j j": "vim::NormalBefore", // remap jj in insert mode to escape
-      "j k": "vim::NormalBefore" // remap jk in insert mode to escape
-    }
-  },
-  // Rename
+
+  // ========================================
+  // OPERATOR PENDING MODE
+  // ========================================
   {
     "context": "Editor && vim_operator == c",
     "bindings": {
       "c": "vim::CurrentLine",
-      "r": "editor::Rename" // zed specific
+      "r": "editor::Rename"
     }
   },
 
-  {
-    "context": "vim_mode == visual",
-    "bindings": {
-      "shift-s": [
-        "vim::PushOperator",
-        {
-          "AddSurrounds": {}
-        }
-      ]
-    }
-  },
+  // ========================================
+  // GENERAL EDITOR BINDINGS
+  // ========================================
   {
     "context": "Editor",
     "bindings": {
+      // Navigation
       "cmd-[": "pane::GoBack",
       "cmd-]": "pane::GoForward",
+
+      // Multi-cursor and Selection
       "cmd-alt-up": "editor::AddSelectionAbove",
       "cmd-ctrl-p": "editor::AddSelectionAbove",
       "cmd-alt-down": "editor::AddSelectionBelow",
       "cmd-ctrl-n": "editor::AddSelectionBelow",
-      "cmd-d": [
-        "editor::SelectNext",
-        {
-          "replace_newest": false
-        }
-      ],
-      "ctrl-cmd-d": [
-        "editor::SelectPrevious",
-        {
-          "replace_newest": false
-        }
-      ],
-      "cmd-k cmd-d": [
-        "editor::SelectNext",
-        {
-          "replace_newest": true
-        }
-      ],
-      "cmd-k ctrl-cmd-d": [
-        "editor::SelectPrevious",
-        {
-          "replace_newest": true
-        }
-      ],
+      "cmd-d": ["editor::SelectNext", {"replace_newest": false}],
+      "ctrl-cmd-d": ["editor::SelectPrevious", {"replace_newest": false}],
+      "cmd-k cmd-d": ["editor::SelectNext", {"replace_newest": true}],
+      "cmd-k ctrl-cmd-d": ["editor::SelectPrevious", {"replace_newest": true}],
+
+      // Syntax and Selection
       "alt-up": "editor::SelectLargerSyntaxNode",
       "alt-down": "editor::SelectSmallerSyntaxNode",
       "cmd-u": "editor::UndoSelection",
       "cmd-shift-u": "editor::RedoSelection",
+
+      // Code Navigation and Actions
       "f8": "editor::GoToDiagnostic",
       "shift-f8": "editor::GoToPrevDiagnostic",
       "f2": "editor::Rename",
       "f12": "editor::GoToDefinition",
-
-      "alt-f12": "editor::GoToDefinitionSplit",
+      "g d v": "editor::GoToDefinitionSplit",
       "cmd-f12": "editor::GoToTypeDefinition",
       "alt-cmd-f12": "editor::GoToTypeDefinitionSplit",
       "alt-shift-f12": "editor::FindAllReferences",
+
+      // Editor Features
       "ctrl-m": "editor::MoveToEnclosingBracket",
-      "alt-cmd-[": "editor::Fold",
-      "alt-cmd-]": "editor::UnfoldLines",
       "ctrl-space": "editor::ShowCompletions",
-      "cmd-.": "editor::ToggleCodeActions",
       "alt-cmd-r": "editor::RevealInFileManager"
     }
   },
+
+  // ========================================
+  // MENU AND FINDER BINDINGS
+  // ========================================
   {
     "context": "TabSwitcher",
     "bindings": {
@@ -163,6 +171,10 @@
       "ctrl-j": "menu::SelectNext"
     }
   },
+
+  // ========================================
+  // SPECIAL VIM NORMAL MODE BINDINGS
+  // ========================================
   {
     "context": "Editor && vim_mode == normal && vim_operator == none && !VimWaiting",
     "bindings": {
@@ -171,19 +183,27 @@
       "H": ["workspace::SendKeystrokes", "shift ^"]
     }
   },
+
+  // ========================================
+  // DOCK AND PANEL NAVIGATION
+  // ========================================
   {
     "context": "Dock",
     "bindings": {
-      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
-      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
     }
   },
-  // File panel (netrw)
+
+  // ========================================
+  // PROJECT PANEL (NETRW-LIKE) BINDINGS
+  // ========================================
   {
     "context": "ProjectPanel && not_editing",
     "bindings": {
+      // File Operations
       "a": "project_panel::NewFile",
       "A": "project_panel::NewDirectory",
       "r": "project_panel::Rename",
@@ -191,14 +211,14 @@
       "x": "project_panel::Cut",
       "c": "project_panel::Copy",
       "p": "project_panel::Paste",
-      // Close project panel as project file panel on the right
-      "q": "workspace::ToggleLeftDock",
-      "space e": "workspace::ToggleLeftDock",
-      // Navigate between panel
-      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-      "s l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
-      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
+
+      // Panel Navigation
+      "q": "workspace::ToggleRightDock",
+      "space e": "workspace::ToggleRightDock",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "s l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
     }
   }
 ]

@@ -12,6 +12,7 @@ return {
   { import = "astrocommunity.pack.rust" },
   { import = "astrocommunity.utility.hover-nvim" },
   { import = "astrocommunity.motion.mini-ai" },
+  { import = "astrocommunity.motion.mini-surround" },
   {
     import = "astrocommunity.note-taking.obsidian-nvim",
     lazy = false,
@@ -35,13 +36,75 @@ return {
     },
   },
   {
-    import = "astrocommunity.completion.copilot-lua",
+    import = "astrocommunity.completion.blink-cmp",
     opts = {
-      filetypes = { tsx = true, ts = true, lua = true, md = true, mdx = true },
-      suggestion = { enabled = true },
+      keymap = { preset = "enter", accept = "<Tab>", accept_word = false, accept_line = false },
+      sources = {
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-cmp-copilot",
+            score_offset = 100,
+            async = true,
+            transform_items = function(_, items)
+              local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
+              local kind_idx = #CompletionItemKind + 1
+              CompletionItemKind[kind_idx] = "Copilot"
+              for _, item in ipairs(items) do
+                item.kind = kind_idx
+              end
+              return items
+            end,
+          },
+        },
+        completion = {
+          enabled_providers = { "copilot", "lsp", "path", "buffer" },
+        },
+      },
+      appearance = {
+        -- Blink does not expose its default kind icons so you must copy them all (or set your custom ones) and add Copilot
+        kind_icons = {
+          Copilot = "",
+          Text = "󰉿",
+          Method = "󰊕",
+          Function = "󰊕",
+          Constructor = "󰒓",
+
+          Field = "󰜢",
+          Variable = "󰆦",
+          Property = "󰖷",
+
+          Class = "󱡠",
+          Interface = "󱡠",
+          Struct = "󱡠",
+          Module = "󰅩",
+
+          Unit = "󰪚",
+          Value = "󰦨",
+          Enum = "󰦨",
+          EnumMember = "󰦨",
+
+          Keyword = "󰻾",
+          Constant = "󰏿",
+
+          Snippet = "󱄽",
+          Color = "󰏘",
+          File = "󰈔",
+          Reference = "󰬲",
+          Folder = "󰉋",
+          Event = "󱐋",
+          Operator = "󰪚",
+          TypeParameter = "󰬛",
+        },
+      },
+    },
+    dependencies = {
+      {
+        "giuxtaposition/blink-cmp-copilot",
+        "rafamadriz/friendly-snippets",
+      },
     },
   },
-  { import = "astrocommunity.completion.copilot-cmp" },
   { import = "astrocommunity.pack.typescript" },
   { import = "astrocommunity.pack.markdown" },
   { import = "astrocommunity.pack.mdx" },

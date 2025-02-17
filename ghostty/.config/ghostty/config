@@ -11,14 +11,25 @@ keybind = ctrl+shift+o=toggle_tab_overview
 
 macos-option-as-alt = true
 
-font-family =  BlexMono Nerd Font Mono
+font-family =  Geist Mono
 font-size = 16
-theme = kanagawa
-background-opacity = 0.78
+
+theme = tokyonight_night
+background-opacity = 0.95
 background-blur-radius = 50
 window-padding-x=8
 window-padding-y=8
 maximize
 macos-titlebar-style=tabs
 
+# This is currently only supported on macOS. This has no effect on Linux.
+window-save-state = always
+
+gtk-wide-tabs = false
+gtk-tabs-location = bottom
+
+# https://ghostty.org/docs/config/reference#font-feature
+# font-feature = -liga
+# font-feature = -ss20
+# font-feature = -calt
 
