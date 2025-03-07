@@ -14,13 +14,14 @@ macos-option-as-alt = true
 font-family =  Geist Mono
 font-size = 16
 
-theme = tokyonight_night
-background-opacity = 0.95
+theme = solarized-osaka
+# theme = tokyonight_night
+background-opacity = 0.9
 background-blur-radius = 50
 window-padding-x=8
 window-padding-y=8
 maximize
-macos-titlebar-style=tabs
+macos-titlebar-style=hidden
 
 # This is currently only supported on macOS. This has no effect on Linux.
 window-save-state = always

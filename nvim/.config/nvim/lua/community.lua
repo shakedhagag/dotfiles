@@ -38,7 +38,7 @@ return {
   {
     import = "astrocommunity.completion.blink-cmp",
     opts = {
-      keymap = { preset = "enter", accept = "<Tab>", accept_word = false, accept_line = false },
+      keymap = { preset = "enter", accept = "<CR>", accept_word = false, accept_line = false },
       sources = {
         providers = {
           copilot = {
