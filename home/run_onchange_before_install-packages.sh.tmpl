@@ -1,4 +1,4 @@
-{{- if eq .chezmoi.os "darwin" -}}
+{{- if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
 #!/bin/sh
 # Installs the Homebrew packages listed in .chezmoidata/packages.yaml.
 # chezmoi re-runs this script whenever its rendered content changes, i.e.
@@ -6,11 +6,15 @@
 # It runs before files are applied, so tools a config depends on exist first.
 set -eu
 
+# Homebrew on Linux (WSL) lives outside PATH until shellenv runs.
+[ -x /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 if ! command -v brew >/dev/null 2>&1; then
   echo 'install-packages: Homebrew is missing. Install it from https://brew.sh, then rerun chezmoi apply.' >&2
   exit 1
 fi
 
+{{ if eq .chezmoi.os "darwin" -}}
 brew bundle --no-upgrade --file=/dev/stdin <<'EOF'
 {{ range .packages.darwin.brews -}}
 brew {{ . | quote }}
@@ -19,4 +23,17 @@ brew {{ . | quote }}
 cask {{ . | quote }}
 {{ end -}}
 EOF
+{{- else }}
+# Linux (WSL): formulae only, no casks. Under WSL, brew can't open /dev/stdin
+# when chezmoi runs the script, so the Brewfile goes through a temp file. A
+# formula without a Linux bottle must not abort `chezmoi apply`.
+brewfile=$(mktemp)
+trap 'rm -f "$brewfile"' EXIT
+cat >"$brewfile" <<'EOF'
+{{ range .packages.darwin.brews -}}
+brew {{ . | quote }}
+{{ end -}}
+EOF
+brew bundle --no-upgrade --file="$brewfile" || echo 'install-packages: some formulae failed (see above)' >&2
+{{- end }}
 {{ end -}}

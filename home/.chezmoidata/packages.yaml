@@ -40,6 +40,7 @@ packages:
       - gnupg
       # Languages and toolchains
       - mise
+      - fnm # .zshrc: node version per directory
       - go
       - node
       - make
@@ -69,3 +70,59 @@ packages:
       - terraform-linters/tap/tflint
       - visual-studio-code
       - vlc
+  # Windows: scoop ("bucket/name" for non-main buckets). Installed by
+  # `run_onchange_before_install-packages.ps1.tmpl`. zsh, tmux, zellij,
+  # ghostty, karabiner etc. have no Windows build; WSL covers those.
+  windows:
+    buckets:
+      - extras
+      - nerd-fonts
+    scoop:
+      # Shell
+      - atuin
+      - bat
+      - carapace-bin
+      - eza
+      - fd
+      - fzf
+      - ripgrep
+      - starship
+      - zoxide
+      - less # pager for delta/bat
+      # Editor and terminal
+      - neovim
+      - tree-sitter
+      - gcc # treesitter parser builds
+      - yazi
+      - btop
+      - extras/wezterm # Ghostty stand-in
+      - extras/autohotkey # Caps Lock = Hyper (Karabiner stand-in)
+      - nerd-fonts/GeistMono-NF
+      # Git
+      - delta
+      - gh
+      - gitleaks
+      - lazygit
+      - lefthook
+      - gnupg
+      # Languages and toolchains
+      - mise
+      - go
+      - make
+      # Infra and CLIs
+      - aws
+      - cloudflared
+      - terraform
+      - tflint
+      - actionlint
+      - mkcert
+      - jq
+      - yq
+      - graphviz
+      - ffmpeg
+      - imagemagick
+      - tectonic
+      - chezmoi
+    # PowerShell 7 modules (zsh plugin stand-ins)
+    psmodules:
+      - PSFzf # fzf-tab / Ctrl+R / Ctrl+T
