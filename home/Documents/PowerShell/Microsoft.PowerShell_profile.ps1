@@ -136,10 +136,10 @@ function gstp { git stash pop @args }
 # zsh global aliases `J` / `C` have no PowerShell form; pipe to these instead:
 #   cat x.json | J        ->  cat x.json | jq
 #   echo hi | C           ->  echo hi | Set-Clipboard
-# PowerShell names ignore case, so zsh's `c` (clear) can't coexist with `C`;
-# use `clear`, `cls` or Ctrl+L.
+# PowerShell names ignore case, so zsh's `c` (clear) and `C` share one
+# function: piped input is copied, a bare `c` clears the screen.
 function J { $input | jq @args }
-function C { $input | Set-Clipboard }
+function C { if ($MyInvocation.ExpectingInput) { $input | Set-Clipboard } else { Clear-Host } }
 
 # ╔════════════════════════════════════════════════════════════════════════════╗
 # ║                    DIRECTORY HASHES (zsh: cd ~dot)                         ║
