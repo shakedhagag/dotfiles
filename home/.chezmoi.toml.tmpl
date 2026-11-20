@@ -11,3 +11,10 @@ mode = "symlink"
 machine = {{ $machine | quote }}
 personalEmail = "shakedc200@gmail.com"
 workEmail = "shaked@frame.security"
+{{- if eq .chezmoi.os "windows" }}
+
+# Run .ps1 scripts with PowerShell 7, so modules land where pwsh finds them.
+[interpreters.ps1]
+command = "pwsh"
+args = ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass"]
+{{- end }}

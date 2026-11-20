@@ -1,10 +1,21 @@
 add_newline = false
 # A minimal left prompt
-format = """$directory$character"""
+format = """$shell$directory$character"""
 palette = "catppuccin_mocha"
 # move the rest of the prompt to the right
 right_format = """$all"""
 command_timeout = 5000
+
+[shell]
+# Tag PowerShell prompts on Windows ("pwsh"), so they can't be mistaken for zsh
+# in WSL: both share this config and look identical otherwise. zsh's indicator
+# is empty, so macOS and WSL prompts are unchanged.
+disabled = false
+zsh_indicator = ""
+pwsh_indicator = "pwsh"
+powershell_indicator = "pwsh"
+format = '[$indicator ]($style)'
+style = "bold blue"
 
 [directory]
 # Render full ~/ paths (not repo-relative) so substitutions match

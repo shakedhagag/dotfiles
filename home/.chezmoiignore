@@ -1,0 +1,31 @@
+{{- /* Target paths that only make sense on some OSes. */ -}}
+{{- if ne .chezmoi.os "darwin" }}
+# macOS-only apps and paths
+Library
+.config/karabiner
+.config/ghostty
+.config/kitty
+.config/rex
+.config/tableplus
+{{- end }}
+
+{{- if ne .chezmoi.os "windows" }}
+# Windows-only: PowerShell profile, AppData links, WezTerm (Ghostty's stand-in)
+Documents
+AppData
+.config/wezterm
+.config/autohotkey
+{{- end }}
+
+{{- if eq .chezmoi.os "windows" }}
+# zsh and Unix-only tools; WSL gets these instead (see docs/windows.md)
+.zshrc
+.config/zsh
+.config/zellij
+.config/herdr
+# `wt` collides with Windows Terminal's launcher
+.config/worktrunk
+# The POSIX run scripts; PowerShell twins live next to them
+bat-cache.sh
+install-packages.sh
+{{- end }}
