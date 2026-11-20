@@ -34,6 +34,29 @@ links.location = function(text, column)
   end
 end
 
+-- URLs (http://localhost:3000/ from a dev server, etc.) open in the browser.
+-- Checked before `links.location`, which would read `//localhost:3000` as a
+-- path with a line number.
+links.url = function(text, column)
+  for first, url, last in text:gmatch('()(%a[%w+.-]*://[^%s"\'`<>|]+)()') do
+    if first <= column and column < last then return (url:gsub('[,.;:)%]]+$', '')) end
+  end
+end
+
+local chrome_win = [[C:\Program Files\Google\Chrome\Application\chrome.exe]]
+local open_url = function(url)
+  local opts
+  if vim.fn.has('win32') == 1 and vim.fn.executable(chrome_win) == 1 then
+    -- Windows' default browser registration can be stale; prefer Chrome.
+    opts = { cmd = { chrome_win } }
+  elseif vim.env.BROWSER and vim.env.BROWSER ~= '' then
+    -- e.g. WSL, where .zshrc points $BROWSER at Windows Chrome (quoted).
+    opts = { cmd = { (vim.env.BROWSER:gsub("^'(.*)'$", '%1')) } }
+  end
+  local _, err = vim.ui.open(url, opts)
+  if err then vim.notify('Could not open ' .. url .. ': ' .. err, vim.log.levels.WARN) end
+end
+
 local open_file = function(source, path, location)
   if not vim.api.nvim_win_is_valid(source) then return end
   vim.cmd('stopinsert')
@@ -61,6 +84,8 @@ links.open = function(win, row, column)
   local info = term.info(buf)
   if not info then return end
   local text = vim.api.nvim_buf_get_lines(buf, row - 1, row, false)[1] or ''
+  local url = links.url(text, column)
+  if url then return open_url(url) end
   local location = links.location(text, column)
   if not location then return end
   local cwd = info.cwd
@@ -129,7 +154,7 @@ links.mouse = function(fallback)
   local buf = vim.api.nvim_win_get_buf(mouse.winid)
   if vim.bo[buf].buftype ~= 'terminal' then return fallback end
   local text = vim.api.nvim_buf_get_lines(buf, mouse.line - 1, mouse.line, false)[1] or ''
-  if not links.location(text, mouse.column) then return fallback end
+  if not (links.url(text, mouse.column) or links.location(text, mouse.column)) then return fallback end
   -- Expression mappings cannot switch windows or edit buffers directly.
   vim.schedule(function() links.open(mouse.winid, mouse.line, mouse.column) end)
   return ''
