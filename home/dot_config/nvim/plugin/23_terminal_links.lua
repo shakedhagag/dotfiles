@@ -36,10 +36,14 @@ end
 
 -- URLs (http://localhost:3000/ from a dev server, etc.) open in the browser.
 -- Checked before `links.location`, which would read `//localhost:3000` as a
--- path with a line number.
+-- path with a line number. `file://` is left to `links.location`, so stack
+-- frames like `at f (file:///app/x.js:10:5)` open in the editor at that line.
 links.url = function(text, column)
   for first, url, last in text:gmatch('()(%a[%w+.-]*://[^%s"\'`<>|]+)()') do
-    if first <= column and column < last then return (url:gsub('[,.;:)%]]+$', '')) end
+    if first <= column and column < last then
+      if url:lower():find('^file://') then return nil end
+      return (url:gsub('[,.;:)%]]+$', ''))
+    end
   end
 end
 
