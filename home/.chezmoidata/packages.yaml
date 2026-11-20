@@ -40,7 +40,6 @@ packages:
       - gnupg
       # Languages and toolchains
       - mise
-      - fnm # .zshrc: node version per directory
       - go
       - node
       - make
@@ -70,6 +69,11 @@ packages:
       - terraform-linters/tap/tflint
       - visual-studio-code
       - vlc
+  # Linux (WSL): extra formulae on top of the darwin brews, which
+  # install-packages.sh.tmpl also installs there (casks are macOS-only).
+  linux:
+    brews:
+      - fnm # macOS has it outside this list; .zshrc needs it
   # Windows: scoop ("bucket/name" for non-main buckets). Installed by
   # `run_onchange_before_install-packages.ps1.tmpl`. zsh, tmux, zellij,
   # ghostty, karabiner etc. have no Windows build; WSL covers those.

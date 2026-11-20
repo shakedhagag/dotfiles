@@ -14,7 +14,7 @@ disabled = false
 zsh_indicator = ""
 pwsh_indicator = "pwsh"
 powershell_indicator = "pwsh"
-format = '[$indicator ]($style)'
+format = '([$indicator ]($style))' # ( ) = render nothing when empty
 style = "bold blue"
 
 [directory]
