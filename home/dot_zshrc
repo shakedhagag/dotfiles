@@ -14,6 +14,14 @@ FUNCNEST=100
 if [[ -n "$WSL_DISTRO_NAME" ]] && ! (( $+commands[pbcopy] )); then
   pbcopy() { clip.exe; }
 fi
+# WSL: open links (gh auth login, etc.) in Windows Chrome, else the Windows
+# default browser
+if [[ -n "$WSL_DISTRO_NAME" && -z "$BROWSER" ]]; then
+  _chrome='/mnt/c/Program Files/Google/Chrome/Application/chrome.exe'
+  # Quoted inside the value: gh splits $BROWSER like a shell, and the path has a space.
+  [[ -x "$_chrome" ]] && export BROWSER="'$_chrome'" || export BROWSER=explorer.exe
+  unset _chrome
+fi
 
 # Default editor
 export EDITOR=nvim
