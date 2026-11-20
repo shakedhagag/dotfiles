@@ -98,7 +98,6 @@ foreach ($a in 'ls', 'gc', 'gl', 'gp', 'gm', 'gcb', 'gst') {
 
 Set-Alias vim nvim
 Set-Alias oc opencode
-Set-Alias c Clear-Host
 Set-Alias pn pnpm
 function reload-profile { . $PROFILE }
 
@@ -137,6 +136,8 @@ function gstp { git stash pop @args }
 # zsh global aliases `J` / `C` have no PowerShell form; pipe to these instead:
 #   cat x.json | J        ->  cat x.json | jq
 #   echo hi | C           ->  echo hi | Set-Clipboard
+# PowerShell names ignore case, so zsh's `c` (clear) can't coexist with `C`;
+# use `clear`, `cls` or Ctrl+L.
 function J { $input | jq @args }
 function C { $input | Set-Clipboard }
 
