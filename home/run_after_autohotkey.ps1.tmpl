@@ -1,7 +1,8 @@
 {{- if eq .chezmoi.os "windows" -}}
 # Starts ~/.config/autohotkey/hyper.ahk (Caps Lock = Hyper, Office key
-# blocked) now and at login.
-# Reruns when the script changes: {{ include "dot_config/autohotkey/hyper.ahk" | sha256sum }}
+# blocked) now and at login. `run_after_`, not `run_onchange_`: it runs on
+# every `chezmoi apply`, so a script that stopped (e.g. after the repo moved)
+# comes back. Cheap: #SingleInstance Force just replaces a running copy.
 $ErrorActionPreference = 'Stop'
 $ahk = Join-Path $HOME 'scoop\apps\autohotkey\current\v2\AutoHotkey64.exe'
 $script = Join-Path $HOME '.config\autohotkey\hyper.ahk'
