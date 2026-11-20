@@ -200,3 +200,19 @@ local diagnostic_opts = {
 -- Use `later()` to avoid sourcing `vim.diagnostic` on startup
 Config.later(function() vim.diagnostic.config(diagnostic_opts) end)
 -- stylua: ignore end
+
+-- Windows: use PowerShell 7 instead of the default cmd.exe, so the terminal
+-- (Ctrl+/) loads the PowerShell profile (aliases etc.). Flags per
+-- `:h shell-powershell`; -NoProfile keeps `:!cmd` fast (the terminal itself
+-- starts the shell without flags, so it does load the profile).
+if vim.fn.has('win32') == 1 then
+  vim.o.shell = vim.fn.executable('pwsh') == 1 and 'pwsh' or 'powershell'
+  vim.o.shellcmdflag = '-NoLogo -NoProfile -NonInteractive -ExecutionPolicy RemoteSigned -Command '
+    .. '[Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new();'
+    .. "$PSDefaultParameterValues['Out-File:Encoding']='utf8';"
+    .. 'Remove-Alias -Force -ErrorAction SilentlyContinue tee;'
+  vim.o.shellredir = '2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode'
+  vim.o.shellpipe = '2>&1 | %%{ "$_" } | tee %s; exit $LastExitCode'
+  vim.o.shellquote = ''
+  vim.o.shellxquote = ''
+end
