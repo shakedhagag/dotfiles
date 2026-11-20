@@ -15,6 +15,8 @@ git -C ~/dotfiles config core.hooksPath .githooks
 
 The first `apply` also installs the Homebrew packages (see "Packages").
 
+Windows and WSL: see [docs/windows.md](docs/windows.md).
+
 `chezmoi init` renders `home/.chezmoi.toml.tmpl` into
 `~/.config/chezmoi/chezmoi.toml`, which holds `sourceDir`, `mode = "symlink"`
 and the machine type. To change the answer later, run

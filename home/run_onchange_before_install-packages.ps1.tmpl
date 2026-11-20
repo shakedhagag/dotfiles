@@ -1,0 +1,72 @@
+{{- if eq .chezmoi.os "windows" -}}
+# Windows twin of run_onchange_before_install-packages.sh.tmpl.
+# Installs the scoop packages and PowerShell modules listed under
+# `packages.windows` in .chezmoidata/packages.yaml, and points tools that
+# default to AppData at ~/.config so they share the macOS config files.
+# chezmoi re-runs this whenever its rendered content (i.e. that list) changes.
+# Installs only what is missing; never upgrades or uninstalls.
+$ErrorActionPreference = 'Continue'
+
+# ── Environment: make Windows tools read ~/.config like on macOS ─────────────
+$cfg = Join-Path $HOME '.config'
+$envVars = [ordered]@{
+  XDG_CONFIG_HOME       = $cfg                        # nvim, lazygit
+  BAT_CONFIG_DIR        = Join-Path $cfg 'bat'        # bat ignores XDG on Windows
+  ATUIN_CONFIG_DIR      = Join-Path $cfg 'atuin'
+  YAZI_CONFIG_HOME      = Join-Path $cfg 'yazi'
+  FZF_DEFAULT_OPTS_FILE = Join-Path $cfg 'fzf\fzfrc'
+  EDITOR                = 'nvim'
+  CC                    = 'gcc'                       # tree-sitter builds parsers with scoop's gcc, not MSVC
+}
+foreach ($k in $envVars.Keys) {
+  if ([Environment]::GetEnvironmentVariable($k, 'User') -ne $envVars[$k]) {
+    [Environment]::SetEnvironmentVariable($k, $envVars[$k], 'User')
+    Write-Host "env: $k=$($envVars[$k])"
+  }
+}
+
+# ── scoop packages ───────────────────────────────────────────────────────────
+if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
+  Write-Error 'install-packages: scoop is missing. Install it from https://scoop.sh, then rerun chezmoi apply.'
+  exit 1
+}
+
+$buckets = @({{ range .packages.windows.buckets }}{{ . | quote }}, {{ end }}$null) | Where-Object { $_ }
+$haveBuckets = @(scoop bucket list | ForEach-Object { $_.Name })
+foreach ($b in $buckets) { if ($b -notin $haveBuckets) { scoop bucket add $b } }
+
+$want = @({{ range .packages.windows.scoop }}{{ . | quote }}, {{ end }}$null) | Where-Object { $_ }
+$have = @(scoop list 6>$null | ForEach-Object { $_.Name })
+$missing = @($want | Where-Object { ($_ -split '/')[-1] -notin $have })
+if ($missing.Count) { scoop install @missing } else { Write-Host 'install-packages: scoop packages up to date' }
+
+# ── Fonts ────────────────────────────────────────────────────────────────────
+# scoop can copy a font into the per-user font folder without registering it.
+# WezTerm finds it anyway (font_dirs), but Windows Terminal only lists
+# registered fonts. Register any per-user font file that has no entry.
+$fontDir = Join-Path $env:LOCALAPPDATA 'Microsoft\Windows\Fonts'
+$fontKey = 'HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Fonts'
+if (Test-Path $fontDir) {
+  if (-not (Test-Path $fontKey)) { New-Item $fontKey -Force | Out-Null }
+  $registered = @((Get-ItemProperty $fontKey).PSObject.Properties | ForEach-Object { "$($_.Value)" })
+  foreach ($f in Get-ChildItem $fontDir -File | Where-Object { $_.Extension -in '.otf', '.ttf', '.ttc' }) {
+    if ($f.FullName -in $registered -or $f.Name -in $registered) { continue }
+    $kind = if ($f.Extension -eq '.otf') { 'OpenType' } else { 'TrueType' }
+    New-ItemProperty $fontKey -Name "$($f.BaseName) ($kind)" -Value $f.FullName -PropertyType String -Force | Out-Null
+    Write-Host "fonts: registered $($f.Name)"
+  }
+}
+
+# PowerShell 7 runs these scripts and the profile, but a fresh Windows has only
+# 5.1. Install it from scoop unless some other install (MSI, winget) exists.
+if (-not (Get-Command pwsh -ErrorAction SilentlyContinue)) { scoop install pwsh }
+
+# ── PowerShell modules ───────────────────────────────────────────────────────
+# Installed through pwsh, so they land where PowerShell 7 looks even when this
+# script runs under 5.1 (the first apply on a fresh machine).
+$pwsh = (Get-Command pwsh -ErrorAction SilentlyContinue).Source
+foreach ($m in @({{ range .packages.windows.psmodules }}{{ . | quote }}, {{ end }}$null) | Where-Object { $_ }) {
+  $install = "if (-not (Get-Module -ListAvailable -Name '$m')) { Install-Module -Name '$m' -Scope CurrentUser -Force -AllowClobber }"
+  if ($pwsh) { & $pwsh -NoProfile -Command $install } else { Invoke-Expression $install }
+}
+{{ end -}}

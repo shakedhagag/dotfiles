@@ -1,0 +1,8 @@
+{{- if eq .chezmoi.os "windows" -}}
+# Windows twin of run_onchange_after_bat-cache.sh.tmpl: bat and delta read
+# custom themes only from bat's binary cache. Reruns when the theme changes:
+# {{ include "dot_config/bat/themes/solarized-osaka.tmTheme" | sha256sum }}
+if (-not (Get-Command bat -ErrorAction SilentlyContinue)) { exit 0 }
+$env:BAT_CONFIG_DIR = Join-Path $HOME '.config\bat'
+bat cache --build | Out-Null
+{{ end -}}
