@@ -79,10 +79,11 @@
 	tool = codediff
 [difftool "codediff"]
 	cmd = nvim \"$LOCAL\" \"$REMOTE\" +\"CodeDiff --exit-on-close file $LOCAL $REMOTE\"
-{{- if eq .chezmoi.os "windows" }}
+{{- if or (eq .chezmoi.os "windows") (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
 
-# Windows: HTTPS git auth through the GitHub CLI (what `gh auth setup-git`
-# writes; kept here because chezmoi owns this file). Log in with `gh auth login`.
+# Windows and WSL: HTTPS git auth through the GitHub CLI (what `gh auth
+# setup-git` writes; kept here because chezmoi owns this file). Log in with
+# `gh auth login`.
 [credential "https://github.com"]
 	helper =
 	helper = !gh auth git-credential
