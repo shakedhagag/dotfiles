@@ -14,13 +14,11 @@ FUNCNEST=100
 if [[ -n "$WSL_DISTRO_NAME" ]] && ! (( $+commands[pbcopy] )); then
   pbcopy() { clip.exe; }
 fi
-# WSL: open links (gh auth login, etc.) in Windows Chrome, else the Windows
-# default browser
+# WSL: open links (gh auth login, aws sso login, etc.) in Windows Chrome, else
+# the Windows default browser. Through a space-free symlink to chrome.exe:
+# gh splits $BROWSER like a shell, Python's webbrowser runs it verbatim.
 if [[ -n "$WSL_DISTRO_NAME" && -z "$BROWSER" ]]; then
-  _chrome='/mnt/c/Program Files/Google/Chrome/Application/chrome.exe'
-  # Quoted inside the value: gh splits $BROWSER like a shell, and the path has a space.
-  [[ -x "$_chrome" ]] && export BROWSER="'$_chrome'" || export BROWSER=explorer.exe
-  unset _chrome
+  [[ -x "$HOME/.config/zsh/chrome" ]] && export BROWSER="$HOME/.config/zsh/chrome" || export BROWSER=explorer.exe
 fi
 
 # Default editor

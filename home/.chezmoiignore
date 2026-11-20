@@ -17,6 +17,11 @@ AppData
 .config/autohotkey
 {{- end }}
 
+{{- if not (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
+# WSL-only: space-free link to Windows Chrome for $BROWSER (see .zshrc)
+.config/zsh/chrome
+{{- end }}
+
 {{- if eq .chezmoi.os "windows" }}
 # zsh and Unix-only tools; WSL gets these instead (see docs/windows.md)
 .zshrc
