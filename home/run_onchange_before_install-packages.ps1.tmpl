@@ -40,10 +40,16 @@ $have = @(scoop list 6>$null | ForEach-Object { $_.Name })
 $missing = @($want | Where-Object { ($_ -split '/')[-1] -notin $have })
 if ($missing.Count) { scoop install @missing } else { Write-Host 'install-packages: scoop packages up to date' }
 
+# PowerShell 7 runs these scripts and the profile, but a fresh Windows has only
+# 5.1. Install it from scoop unless some other install (MSI, winget) exists.
+if (-not (Get-Command pwsh -ErrorAction SilentlyContinue)) { scoop install pwsh }
+
 # ── PowerShell modules ───────────────────────────────────────────────────────
+# Installed through pwsh, so they land where PowerShell 7 looks even when this
+# script runs under 5.1 (the first apply on a fresh machine).
+$pwsh = (Get-Command pwsh -ErrorAction SilentlyContinue).Source
 foreach ($m in @({{ range .packages.windows.psmodules }}{{ . | quote }}, {{ end }}$null) | Where-Object { $_ }) {
-  if (-not (Get-Module -ListAvailable -Name $m)) {
-    Install-Module -Name $m -Scope CurrentUser -Force -AllowClobber
-  }
+  $install = "if (-not (Get-Module -ListAvailable -Name '$m')) { Install-Module -Name '$m' -Scope CurrentUser -Force -AllowClobber }"
+  if ($pwsh) { & $pwsh -NoProfile -Command $install } else { Invoke-Expression $install }
 }
 {{ end -}}

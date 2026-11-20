@@ -18,8 +18,10 @@ personalEmail = "shakedc200@gmail.com"
 workEmail = "shaked@frame.security"
 {{- if eq .chezmoi.os "windows" }}
 
-# Run .ps1 scripts with PowerShell 7, so modules land where pwsh finds them.
+# Run .ps1 scripts with PowerShell 7. A fresh Windows has only 5.1, which
+# runs the first apply; install-packages installs pwsh, and the next
+# `chezmoi init` switches to it (docs/windows.md).
 [interpreters.ps1]
-command = "pwsh"
+command = {{ if lookPath "pwsh" }}"pwsh"{{ else }}"powershell"{{ end }}
 args = ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass"]
 {{- end }}
