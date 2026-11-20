@@ -5,10 +5,10 @@
 # whenever that list changes. Installs only what is missing (no upgrades).
 # It runs before files are applied, so tools a config depends on exist first.
 set -eu
-
+{{ if eq .chezmoi.os "linux" }}
 # Homebrew on Linux (WSL) lives outside PATH until shellenv runs.
 [ -x /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
+{{ end }}
 if ! command -v brew >/dev/null 2>&1; then
   echo 'install-packages: Homebrew is missing. Install it from https://brew.sh, then rerun chezmoi apply.' >&2
   exit 1
@@ -30,7 +30,7 @@ EOF
 brewfile=$(mktemp)
 trap 'rm -f "$brewfile"' EXIT
 cat >"$brewfile" <<'EOF'
-{{ range .packages.darwin.brews -}}
+{{ range (concat .packages.darwin.brews .packages.linux.brews) -}}
 brew {{ . | quote }}
 {{ end -}}
 EOF
