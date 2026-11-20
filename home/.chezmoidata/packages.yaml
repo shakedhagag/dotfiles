@@ -74,6 +74,7 @@ packages:
   linux:
     brews:
       - fnm # macOS has it outside this list; .zshrc needs it
+      - pnpm # else WSL falls through to Windows' npm pnpm on $PATH
   # Windows: scoop ("bucket/name" for non-main buckets). Installed by
   # `run_onchange_before_install-packages.ps1.tmpl`. zsh, tmux, zellij,
   # ghostty, karabiner etc. have no Windows build; WSL covers those.
@@ -113,6 +114,7 @@ packages:
       - mise
       - go
       - make
+      - pnpm # shadows older pnpm installs (scoop shims come first in the profile)
       # Infra and CLIs
       - aws
       - cloudflared
