@@ -40,6 +40,23 @@ $have = @(scoop list 6>$null | ForEach-Object { $_.Name })
 $missing = @($want | Where-Object { ($_ -split '/')[-1] -notin $have })
 if ($missing.Count) { scoop install @missing } else { Write-Host 'install-packages: scoop packages up to date' }
 
+# ── Fonts ────────────────────────────────────────────────────────────────────
+# scoop can copy a font into the per-user font folder without registering it.
+# WezTerm finds it anyway (font_dirs), but Windows Terminal only lists
+# registered fonts. Register any per-user font file that has no entry.
+$fontDir = Join-Path $env:LOCALAPPDATA 'Microsoft\Windows\Fonts'
+$fontKey = 'HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Fonts'
+if (Test-Path $fontDir) {
+  if (-not (Test-Path $fontKey)) { New-Item $fontKey -Force | Out-Null }
+  $registered = @((Get-ItemProperty $fontKey).PSObject.Properties | ForEach-Object { "$($_.Value)" })
+  foreach ($f in Get-ChildItem $fontDir -File | Where-Object { $_.Extension -in '.otf', '.ttf', '.ttc' }) {
+    if ($f.FullName -in $registered -or $f.Name -in $registered) { continue }
+    $kind = if ($f.Extension -eq '.otf') { 'OpenType' } else { 'TrueType' }
+    New-ItemProperty $fontKey -Name "$($f.BaseName) ($kind)" -Value $f.FullName -PropertyType String -Force | Out-Null
+    Write-Host "fonts: registered $($f.Name)"
+  }
+}
+
 # PowerShell 7 runs these scripts and the profile, but a fresh Windows has only
 # 5.1. Install it from scoop unless some other install (MSI, winget) exists.
 if (-not (Get-Command pwsh -ErrorAction SilentlyContinue)) { scoop install pwsh }
