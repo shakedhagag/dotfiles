@@ -200,6 +200,10 @@ function wz { wsl.exe --cd "$PWD" -- zsh -l }
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path $ChocolateyProfile) { Import-Module $ChocolateyProfile }
 
+# Starship prompt. First of the prompt hooks: its `prompt` replaces the
+# current one without calling it, so fnm, mise and zoxide wrap it afterwards.
+if (Test-Cmd starship) { Invoke-Expression (&starship init powershell) }
+
 # Node version manager
 if (Test-Cmd fnm) { fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression }
 
@@ -220,9 +224,6 @@ if ((Test-Cmd fzf) -and (Get-Module -ListAvailable PSFzf)) {
 
 # Zoxide (smart cd)
 if (Test-Cmd zoxide) { Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) }) }
-
-# Starship prompt
-if (Test-Cmd starship) { Invoke-Expression (&starship init powershell) }
 
 # Atuin (shell history, Ctrl+R)
 # (PowerShell 7 only; on 5.1, Ctrl+R falls back to PSFzf's fzf history search)
