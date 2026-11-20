@@ -63,6 +63,26 @@ wezterm.on('gui-startup', function(cmd)
   window:gui_window():maximize() -- maximize = true
 end)
 
+-- Open clicked web links in Chrome, whatever Windows' default browser is
+-- (e.g. a stale Arc registration fails with "file not found"). Other links
+-- (mailto:, file:) still go to Windows' default handler.
+local chrome = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+wezterm.on('open-uri', function(_, _, uri)
+  local url = uri
+  -- A bare `localhost:3000/` or `host:port/...` (no scheme) -> http://
+  if not url:match('^%a[%w+.-]*://') and (url:match('^localhost') or url:match('^[%w.-]+:%d+')) then
+    url = 'http://' .. url
+  end
+  if url:match('^https?://') then
+    local f = io.open(chrome, 'r')
+    if f then
+      f:close()
+      wezterm.background_child_process({ chrome, url })
+      return false -- handled; skip the default opener
+    end
+  end
+end)
+
 -- ── Keys (Ghostty keybinds; `super` chords moved off the Windows key) ────────
 config.keys = {
   -- General
