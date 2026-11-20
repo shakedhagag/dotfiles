@@ -85,8 +85,11 @@ config.keys = {
   { key = 'k', mods = 'CTRL|ALT', action = act.ActivatePaneDirection('Up') },
   { key = 'l', mods = 'CTRL|ALT', action = act.ActivatePaneDirection('Right') },
 
-  -- Ctrl+Shift+V is a split (as in Ghostty), so paste moves to Ctrl+Alt+V;
-  -- Shift+Insert also pastes. Copy stays on Ctrl+Shift+C.
+  -- Paste on Ctrl+V like the rest of Windows (Ghostty's Cmd+V). Ctrl+Shift+V
+  -- stays a split, as in Ghostty. In nvim, use Ctrl+Q for visual-block mode
+  -- (Vim's built-in alias for Ctrl+V). Ctrl+Alt+V and Shift+Insert also paste;
+  -- copy is Ctrl+Shift+C or just select text.
+  { key = 'v', mods = 'CTRL', action = act.PasteFrom('Clipboard') },
   { key = 'v', mods = 'CTRL|ALT', action = act.PasteFrom('Clipboard') },
   { key = 'c', mods = 'CTRL|SHIFT', action = act.CopyTo('Clipboard') },
 
