@@ -145,7 +145,13 @@ function C { $input | Set-Clipboard }
 # ║                    DIRECTORY HASHES (zsh: cd ~dot)                         ║
 # ╚════════════════════════════════════════════════════════════════════════════╝
 # PowerShell drives instead: `cd dot:`, `cd dl:`
-foreach ($d in @{ dot = "$HOME\dotfiles"; dl = "$HOME\Downloads"; frm = "$HOME\frame" }.GetEnumerator()) {
+# `dot` follows the repo: chezmoi's config records where `chezmoi init` put it.
+$dotfiles = "$HOME\dotfiles"
+$chezmoiToml = Join-Path $HOME '.config\chezmoi\chezmoi.toml'
+if ((Test-Path $chezmoiToml) -and ((Get-Content -Raw $chezmoiToml) -match '(?m)^\s*sourceDir\s*=\s*"([^"]+)"')) {
+  $dotfiles = $Matches[1] -replace '\\\\', '\'
+}
+foreach ($d in @{ dot = $dotfiles; dl = "$HOME\Downloads"; frm = "$HOME\frame" }.GetEnumerator()) {
   if ((Test-Path $d.Value) -and -not (Get-PSDrive $d.Key -ErrorAction SilentlyContinue)) {
     New-PSDrive -Name $d.Key -PSProvider FileSystem -Root $d.Value -Scope Global | Out-Null
   }
