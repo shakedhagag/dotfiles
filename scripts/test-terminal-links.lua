@@ -61,6 +61,14 @@ local ok, err = xpcall(function()
     assert(parse(text, 20).path == 'src/two.ts')
     assert(parse('error: cannot assign value', 20) == nil)
     assert(parse('src/foo.ts:12:4: error', 20) == nil)
+
+    -- Web URLs go to the browser; file:// stack frames open in the editor.
+    local url = Config.TerminalLinks.url
+    assert(url('dev server at http://localhost:3000/.', 20) == 'http://localhost:3000/')
+    local frame = 'at main (file:///tmp/app/x.js:10:5)'
+    assert(url(frame, 15) == nil, 'file:// frame went to the browser')
+    local loc = assert(parse(frame, 15))
+    assert(loc.path:gsub('^/+', '/') == '/tmp/app/x.js' and loc.line == 10 and loc.col == 5, vim.inspect(loc))
   ]])
   print('Diagnostic formats, bracketed routes, clicked token: OK')
 
