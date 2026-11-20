@@ -79,3 +79,14 @@
 	tool = codediff
 [difftool "codediff"]
 	cmd = nvim \"$LOCAL\" \"$REMOTE\" +\"CodeDiff --exit-on-close file $LOCAL $REMOTE\"
+{{- if eq .chezmoi.os "windows" }}
+
+# Windows: HTTPS git auth through the GitHub CLI (what `gh auth setup-git`
+# writes; kept here because chezmoi owns this file). Log in with `gh auth login`.
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential
+{{- end }}
