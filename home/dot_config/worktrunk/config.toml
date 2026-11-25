@@ -12,7 +12,8 @@ worktree-path = "~/worktrees/{{ repo }}/{{ branch | sanitize }}/{{ repo }}"
 # ready. Agents can run commands or tests as soon as `wt switch -c` returns.
 [[projects."github.com/frame-rnd/frame".pre-start]]
 env = "link-worktree-env"
-agents = "ln -sfn {{ primary_worktree_path }}/AGENTS.local.md AGENTS.local.md"
+# Skipped in the primary checkout, where ln would replace the real file with a self-link
+agents = "[ \"$(pwd -P)\" = \"$(cd {{ primary_worktree_path }} && pwd -P)\" ] || ln -sfn {{ primary_worktree_path }}/AGENTS.local.md AGENTS.local.md"
 # Claude Code doesn't load AGENTS.local.md on its own. Written, not symlinked,
 # so the @import resolves here. Nested AGENTS.md files (frontend/ and below)
 # load lazily via pluginConfigs."cc-plugin-agents-md@builtin" in
