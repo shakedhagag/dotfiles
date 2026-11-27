@@ -519,6 +519,15 @@
 		"command": "workbench.action.terminal.focusNextPane",
 		"when": "terminalFocus && terminalSplitPaneActive && !terminalEditorFocus"
 	},
+	// WINDOWS: in a pwsh terminal VS Code binds ctrl+v to terminal.pastePwsh, which sends a
+	// raw ^V for PSReadLine to paste. A TUI started from pwsh (Claude Code, lazygit) gets
+	// that ^V and pastes nothing, so paste through VS Code in every terminal, as cmd+v
+	// does on macOS. Multi-line pastes at the pwsh prompt get VS Code's paste warning.
+	{
+		"key": "ctrl+v",
+		"command": "workbench.action.terminal.paste",
+		"when": "terminalFocus"
+	},
 	// mac: cmd+0. Replaces ctrl+0 (Focus Side Bar), as cmd+0 does on macOS.
 	{
 		"key": "ctrl+0",
