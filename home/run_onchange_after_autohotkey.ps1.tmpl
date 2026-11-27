@@ -1,0 +1,30 @@
+{{- if eq .chezmoi.os "windows" -}}
+# Starts ~/.config/autohotkey/hyper.ahk (Caps Lock = Hyper, Office key
+# blocked) now and at login. `run_onchange_`, keyed on the script and on the
+# repo's location, so `chezmoi status` stays empty between applies: it reruns
+# when hyper.ahk changes or the repo moves (which stops the running copy, as
+# ~/.config/autohotkey/hyper.ahk is a symlink into the repo).
+# hyper.ahk sha256: {{ include "dot_config/autohotkey/hyper.ahk" | sha256sum }}
+# repo: {{ .chezmoi.sourceDir }}
+$ErrorActionPreference = 'Stop'
+$ahk = Join-Path $HOME 'scoop\apps\autohotkey\current\v2\AutoHotkey64.exe'
+$script = Join-Path $HOME '.config\autohotkey\hyper.ahk'
+if (-not (Test-Path $ahk)) { Write-Warning "autohotkey: $ahk missing (scoop install extras/autohotkey)"; exit 0 }
+
+# The Office key (Hyper alone opening Microsoft 365) is blocked inside
+# hyper.ahk; the old ms-officeapp registry trick has no effect on this build.
+
+# ── Start at login ───────────────────────────────────────────────────────────
+$lnk = Join-Path ([Environment]::GetFolderPath('Startup')) 'hyper.ahk.lnk'
+$sh = New-Object -ComObject WScript.Shell
+$s = $sh.CreateShortcut($lnk)
+$s.TargetPath = $ahk
+$s.Arguments = "`"$script`""
+$s.WorkingDirectory = Split-Path $script
+$s.Save()
+
+# ── (Re)start now ────────────────────────────────────────────────────────────
+# #SingleInstance Force replaces an already-running copy.
+Start-Process -FilePath $ahk -ArgumentList "`"$script`""
+Write-Host 'autohotkey: hyper.ahk running'
+{{ end -}}

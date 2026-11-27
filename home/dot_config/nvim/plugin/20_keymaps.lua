@@ -124,6 +124,12 @@ end, 'Next diagnostic')
 -- Toggle the persistent terminal dock with Ctrl-/. Mechanics live in
 -- 'plugin/23_terminal.lua' (`Config.Terminal`).
 vim.keymap.set({ 'n', 't' }, '<C-/>', function() Config.Terminal.toggle() end, { desc = 'Toggle terminal dock' })
+-- WSL: Windows' console layer (ConPTY, under WezTerm) delivers Ctrl-/ as the
+-- legacy control code Ctrl-_, so map that too. Not on macOS, where Ghostty
+-- sends a real Ctrl-/ and Ctrl-_ stays zsh's undo inside the terminal.
+if vim.fn.has('wsl') == 1 then
+  vim.keymap.set({ 'n', 't' }, '<C-_>', function() Config.Terminal.toggle() end, { desc = 'Toggle terminal dock' })
+end
 
 -- Open compiler paths from terminal output without replacing the terminal.
 -- Return the original mouse key outside paths so selection still works.
