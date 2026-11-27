@@ -1,0 +1,6 @@
+os:
+  # Windows only, layered last by the VS Code `lazygit` terminal profile
+  # (LG_CONFIG_FILE in Code/User/settings.json). config.yml sources a zsh
+  # functions file before every shell command; Windows lazygit runs commands
+  # through cmd, where `source` fails and lazygit crashes on startup.
+  shellFunctionsFile: ""

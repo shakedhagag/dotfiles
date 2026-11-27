@@ -1476,7 +1476,7 @@
 	{
 		"key": "ctrl+/",
 		"command": "workbench.action.terminal.toggleTerminal",
-		"when": "editorTextFocus || terminalFocus"
+		"when": "editorTextFocus || terminalFocus || activeEditorGroupEmpty && editorAreaFocus && !inputFocus || !editorIsOpen && !inputFocus"
 	},
 
 	//
