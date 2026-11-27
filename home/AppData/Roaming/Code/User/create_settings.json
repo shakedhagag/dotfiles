@@ -671,12 +671,14 @@
       "args": ["-d", "Ubuntu", "--", "zsh", "-l"],
       "icon": "terminal-linux",
     },
-    // space g g. lazygit from PATH (scoop shim). Windows lazygit reads
-    // %APPDATA%\lazygit by default, so point it at the chezmoi-managed ~/.config
-    // copy; vscode.yml makes `e` open files in this window, as on macOS, and
-    // windows.yml drops config.yml's zsh shellFunctionsFile (cmd can't source it).
+    // space g g. The scoop lazygit by full path: VS Code's PATH can put an
+    // older lazygit first (Chocolatey's 0.41 rejects this config and exits).
+    // Windows lazygit reads %APPDATA%\lazygit by default, so point it at the
+    // chezmoi-managed ~/.config copy; vscode.yml makes `e` open files in this
+    // window, as on macOS, and windows.yml drops config.yml's zsh
+    // shellFunctionsFile (cmd can't source it).
     "lazygit": {
-      "path": "lazygit.exe",
+      "path": "C:\\Users\\User\\scoop\\shims\\lazygit.exe",
       "icon": "git-branch",
       "overrideName": true,
       "env": {
