@@ -1,0 +1,16 @@
+os:
+  # Loaded only by the VS Code `lazygit` terminal profile (LG_CONFIG_FILE in
+  # Code/User/settings.json). Inside VS Code's terminal, `code` reaches the
+  # current window through $VSCODE_IPC_HOOK_CLI, so files open as editor tabs
+  # there instead of nvim taking over the lazygit pane.
+  # The nvim-remote preset suspends lazygit when $NVIM is unset; there is no
+  # nvim here, so stay in the foreground.
+  editInTerminal: false
+  openDirInEditor: "code -- {{dir}}"
+  # `-g` opens file:line in the existing window and returns at once, so the
+  # lazygit tab stays alive behind the opened file.
+  edit: "code -g -- {{filename}}"
+  editAtLine: "code -g -- {{filename}}:{{line}}"
+  # Flows that resume after the editor closes (e.g. editing a commit message)
+  # must block until the tab is closed.
+  editAtLineAndWait: "code --wait -g -- {{filename}}:{{line}}"

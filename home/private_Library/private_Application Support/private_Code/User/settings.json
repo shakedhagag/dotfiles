@@ -29,7 +29,11 @@
 	"terminal.integrated.macOptionIsMeta": true, // Ghostty: macos-option-as-alt = true
 	"terminal.integrated.profiles.osx": {
 		"zsh": { "path": "zsh", "args": ["-l"] },
-		"lazygit": { "path": "/opt/homebrew/bin/lazygit", "icon": "git-branch" } // space g g
+		"lazygit": { // space g g; vscode.yml makes `e` open files in this window, not nvim
+			"path": "/opt/homebrew/bin/lazygit",
+			"icon": "git-branch",
+			"env": { "LG_CONFIG_FILE": "${env:HOME}/.config/lazygit/config.yml,${env:HOME}/.config/lazygit/vscode.yml" }
+		}
 	},
 	"terminal.integrated.env.osx": {
 		"PYTHONPATH": "${workspaceFolder}"
