@@ -40,6 +40,16 @@ TAP_MS := 400
 ~#+!LCtrl::
 ~#+!RCtrl:: Send "{Blind}{vkE8}"
 
+; Hyper+<key>: Explorer reserves Ctrl+Shift+Alt+Win+<letter> for the Office
+; key (T = Teams, O = Outlook, W = Word, ...), so Raycast never receives those
+; combos. The keyboard hook ($) catches them first and resends them without
+; Win, as Ctrl+Shift+Alt+<key>. On Windows, bind Raycast hotkeys by pressing
+; Hyper+<key>; Raycast records them as Ctrl+Shift+Alt+<key>.
+for k in StrSplit("abcdefghijklmnopqrstuvwxyz0123456789")
+    Hotkey("$#^+!" k, HyperToMeh(k))
+
+HyperToMeh(k) => (*) => Send("^+!" k)
+
 SwitchInputLanguage() {
     ; WM_INPUTLANGCHANGEREQUEST with INPUTLANGCHANGE_FORWARD: next installed
     ; layout for the focused window (a toggle with two languages).
