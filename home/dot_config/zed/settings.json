@@ -81,6 +81,7 @@
     "file_icons": true,
   },
   "title_bar": {
+    "show": "never",
     "show_branch_status_icon": true,
   },
   "status_bar": {
